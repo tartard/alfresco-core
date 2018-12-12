@@ -208,6 +208,20 @@ public class CannedQueryTest extends TestCase
         assertEquals("Incorrect results on page", 3, pages.get(0).size());
         assertEquals("Incorrect results on page", 3, pages.get(1).size());
         assertTrue("Should have more pages/items", qrOne.hasMoreItems());
+        
+        // Skip all results to get an empty page
+        qPageDetails = new CannedQueryPageDetails(10, 3, 1, 2);
+        params = new CannedQueryParameters(null, qPageDetails, null);
+        qOne = qfOne.getCannedQuery(params);
+        qrOne = qOne.execute();
+        // Check pages
+        assertEquals("Incorrect number of results", 0, qrOne.getPagedResultCount());
+        assertEquals("Incorrect number of pages", 1, qrOne.getPageCount());
+        pages = qrOne.getPages();
+        assertEquals("Incorrect number of pages", 1, pages.size());
+        assertEquals("Incorrect results on page", 0, pages.get(0).size());
+        assertTrue("Should have no more pages/items", !qrOne.hasMoreItems());
+        assertNotNull("Should have one empty page", qrOne.getPage());
     }
     
     @SuppressWarnings("unchecked")

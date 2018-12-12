@@ -319,6 +319,9 @@ public abstract class AbstractCannedQuery<R> implements CannedQuery<R>
         }
         else if (firstResult > availableResults)
         {
+            // Add an empty page to show that the query and the paging worked but returned no results
+            List<R> page = new ArrayList<R>(0);
+            pages.add(page);
             return pages;                               // Start of first page is after all results
         }
         
